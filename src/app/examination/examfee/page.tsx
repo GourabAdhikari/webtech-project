@@ -20,8 +20,6 @@ export default function ExamFeePage() {
     if (!isAuthenticated) router.push("/examination");
   }, [router]);
 
-  console.log(rollNumber);
-
   const student = useQuery(
     api.students.getByRollNo,
     rollNumber ? { rollNo: rollNumber } : "skip",
