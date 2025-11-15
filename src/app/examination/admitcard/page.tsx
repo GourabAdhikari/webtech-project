@@ -12,7 +12,7 @@ import ViewButton from "@/components/ViewButton";
 export default function AdmitCardPage() {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [studentId, setStudentId] = useState<Id<"students"> | null>(); // 🎓 Static Admit Card Data (Semester-wise)
+  const [studentId, setStudentId] = useState<Id<"students"> | null>();
 
   // 🔒 Redirect protection
   useEffect(() => {
