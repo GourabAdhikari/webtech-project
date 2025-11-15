@@ -1,16 +1,39 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import { ArrowUp, Banknote } from "lucide-react"; // ✅ Lucide Icons
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { api } from "@/../convex/_generated/api";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function ExamFeePage() {
   const router = useRouter();
+  const [rollNumber, setRollNumber] = useState<string | null>(null);
 
   useEffect(() => {
+    const rn = sessionStorage.getItem("exam_roll");
     const isAuthenticated = sessionStorage.getItem("exam_auth");
+
+    setRollNumber(rn);
+
     if (!isAuthenticated) router.push("/examination");
   }, [router]);
+
+  console.log(rollNumber);
+
+  const student = useQuery(
+    api.students.getByRollNo,
+    rollNumber ? { rollNo: rollNumber } : "skip",
+  );
+
+  if (student === undefined) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6">
@@ -26,9 +49,14 @@ export default function ExamFeePage() {
         {/* 🧾 Title & Message */}
         <h1 className="mb-4 font-bold text-3xl text-black">Exam Fee Status</h1>
 
-        <p className="mb-2 text-gray-700">
-          Your exam fee has been paid successfully.
-        </p>
+        {student?.feePaid ? (
+          <p className="mb-2 text-gray-700">
+            Your exam fee has been paid successfully.
+          </p>
+        ) : (
+          <p className="mb-2 text-gray-700">Your exam fee not paid yet.</p>
+        )}
+
         <p className="text-gray-500">Thank you!</p>
       </div>
     </div>
