@@ -12,14 +12,11 @@ interface AnimatedButtonProps {
 const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   label = "Open",
   href = "#",
-  target = "_blank",
   className = "",
 }) => {
   return (
     <a
       href={href}
-      target={target}
-      rel="noopener noreferrer"
       className={`cssbuttons-io-button inline-flex items-center justify-center ${className}`}
     >
       <span style={{ pointerEvents: "none" }}>{label}</span>
