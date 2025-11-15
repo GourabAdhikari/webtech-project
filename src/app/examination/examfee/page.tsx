@@ -4,8 +4,6 @@ import { ArrowUp, Banknote } from "lucide-react"; // ✅ Lucide Icons
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import CloseButton from "@/components/ui/CloseButton"; // ✅ Reusable red button
-
 export default function ExamFeePage() {
   const router = useRouter();
 
@@ -13,8 +11,6 @@ export default function ExamFeePage() {
     const isAuthenticated = sessionStorage.getItem("exam_auth");
     if (!isAuthenticated) router.push("/examination");
   }, [router]);
-
-  const handleClose = () => window.close();
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6">
@@ -34,11 +30,6 @@ export default function ExamFeePage() {
           Your exam fee has been paid successfully.
         </p>
         <p className="text-gray-500">Thank you!</p>
-
-        {/* 🔴 Animated Close Tab Button */}
-        <div className="mt-8 flex justify-center">
-          <CloseButton label="Close Tab" onClick={handleClose} />
-        </div>
       </div>
     </div>
   );

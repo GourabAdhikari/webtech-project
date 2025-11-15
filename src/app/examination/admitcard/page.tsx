@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import CloseButton from "@/components/ui/CloseButton";
 import ViewButton from "@/components/ViewButton";
 
 export default function AdmitCardPage() {
@@ -28,8 +27,6 @@ export default function AdmitCardPage() {
     const isAuthenticated = sessionStorage.getItem("exam_auth");
     if (!isAuthenticated) router.push("/examination");
   }, [router]);
-
-  const handleClose = () => window.close();
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-gray-100 via-white to-gray-50 px-6 py-10">
@@ -88,11 +85,6 @@ export default function AdmitCardPage() {
             </motion.div>
           </button>
         ))}
-      </div>
-
-      {/* 🔴 Close Tab Button */}
-      <div className="mt-10 flex justify-center">
-        <CloseButton label="Close Tab" onClick={handleClose} />
       </div>
     </div>
   );
