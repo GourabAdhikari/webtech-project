@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import CloseButton from "@/components/ui/CloseButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -400,10 +399,6 @@ export default function ExamRegistrationPage() {
                 </div>
                 <span>Submit Registration</span>
               </button>
-
-              <div className="mt-8 flex justify-center">
-                <CloseButton label="Close Tab" />
-              </div>
             </form>
           </CardContent>
         </Card>

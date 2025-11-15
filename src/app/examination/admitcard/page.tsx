@@ -1,35 +1,41 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-import CloseButton from "@/components/ui/CloseButton";
+import { api } from "@/../convex/_generated/api";
+import type { Id } from "@/../convex/_generated/dataModel";
+import { Spinner } from "@/components/ui/spinner";
 import ViewButton from "@/components/ViewButton";
 
 export default function AdmitCardPage() {
   const router = useRouter();
-  const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
-
-  // 🎓 Static Admit Card Data (Semester-wise)
-  const admitCards = [
-    { semester: "Semester 1", file: "/downloads/admit_sem1.pdf" },
-    { semester: "Semester 2", file: "/downloads/admit_sem2.pdf" },
-    { semester: "Semester 3", file: "/downloads/admit_sem3.pdf" },
-    { semester: "Semester 4", file: "/downloads/admit_sem4.pdf" },
-    { semester: "Semester 5", file: "/downloads/admit_sem5.pdf" },
-    { semester: "Semester 6", file: "/downloads/admit_sem6.pdf" },
-    { semester: "Semester 7", file: "/downloads/admit_sem7.pdf" },
-    { semester: "Semester 8", file: "/downloads/admit_sem8.pdf" },
-  ];
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [studentId, setStudentId] = useState<Id<"students"> | null>();
 
   // 🔒 Redirect protection
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem("exam_auth");
+    const student_id = sessionStorage.getItem(
+      "student_id",
+    ) as Id<"students"> | null;
+    setStudentId(student_id);
     if (!isAuthenticated) router.push("/examination");
   }, [router]);
 
-  const handleClose = () => window.close();
+  const admitCards = useQuery(
+    api.documents.getAdmitCards,
+    studentId ? { studentId: studentId } : "skip",
+  );
+
+  if (admitCards === undefined) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-gray-100 via-white to-gray-50 px-6 py-10">
@@ -82,17 +88,12 @@ export default function AdmitCardPage() {
               className="relative z-10 flex h-20 items-center justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-md transition-all duration-300 hover:shadow-lg"
             >
               <span className="font-semibold text-gray-800 text-lg">
-                {card.semester}
+                Semester {card.semester}
               </span>
-              <ViewButton label="View" href={card.file} />
+              <ViewButton label="View" href={card.pdfUrl} />
             </motion.div>
           </button>
         ))}
-      </div>
-
-      {/* 🔴 Close Tab Button */}
-      <div className="mt-10 flex justify-center">
-        <CloseButton label="Close Tab" onClick={handleClose} />
       </div>
     </div>
   );

@@ -62,11 +62,10 @@ export default function ExaminationLoginPage() {
       return;
     }
 
-    console.log(sha256(dob));
-
     // ✅ Save data to sessionStorage for later authentication
     sessionStorage.setItem("exam_auth", "true");
     sessionStorage.setItem("exam_roll", rollNumber.trim());
+    sessionStorage.setItem("student_id", student._id);
 
     router.push("/examination/main");
   };
