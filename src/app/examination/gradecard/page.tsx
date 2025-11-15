@@ -1,30 +1,41 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { api } from "@/../convex/_generated/api";
+import type { Id } from "@/../convex/_generated/dataModel";
+import { Spinner } from "@/components/ui/spinner";
 
 import ViewButton from "@/components/ViewButton";
 
 export default function GradeCardPage() {
   const router = useRouter();
-  const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
-
-  const gradeCards = [
-    { semester: "Semester 1", file: "/downloads/sem1_gradecard.pdf" },
-    { semester: "Semester 2", file: "/downloads/sem2_gradecard.pdf" },
-    { semester: "Semester 3", file: "/downloads/sem3_gradecard.pdf" },
-    { semester: "Semester 4", file: "/downloads/sem4_gradecard.pdf" },
-    { semester: "Semester 5", file: "/downloads/sem5_gradecard.pdf" },
-    { semester: "Semester 6", file: "/downloads/sem6_gradecard.pdf" },
-    { semester: "Semester 7", file: "/downloads/sem7_gradecard.pdf" },
-    { semester: "Semester 8", file: "/downloads/sem8_gradecard.pdf" },
-  ];
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [studentId, setStudentId] = useState<Id<"students"> | null>();
 
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem("exam_auth");
+    const student_id = sessionStorage.getItem(
+      "student_id",
+    ) as Id<"students"> | null;
+    setStudentId(student_id);
     if (!isAuthenticated) router.push("/examination");
   }, [router]);
+
+  const gradeCards = useQuery(
+    api.documents.getGradeCards,
+    studentId ? { studentId: studentId } : "skip",
+  );
+
+  if (gradeCards === undefined) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-gray-100 via-white to-gray-50 px-6 py-10">
@@ -79,7 +90,7 @@ export default function GradeCardPage() {
               <span className="font-semibold text-gray-800 text-lg">
                 {card.semester}
               </span>
-              <ViewButton label="View" href={card.file} />
+              <ViewButton label="View" href={card.pdfUrl} />
             </motion.div>
           </button>
         ))}
