@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 // ✅ Define strong type for form data
 const subjectOptions = [
   { value: "mathematics", label: "Mathematics" },
-  { value: "computer_networks", label: "Computer Networks" },
   { value: "operating_systems", label: "Operating Systems" },
   { value: "dbms", label: "Database Management" },
   { value: "software_engineering", label: "Software Engineering" },
@@ -45,6 +44,7 @@ interface FormData {
 export default function ExamRegistrationPage() {
   const router = useRouter();
   const [rollNumber, setRollNumber] = useState<string | null>(null);
+  const addExamMutation = useMutation(api.exams.insertExam);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -126,6 +126,11 @@ export default function ExamRegistrationPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!student) {
+      setError("Student data not loaded. Please try again.");
+      return;
+    }
+
     if (
       !formData.name ||
       !formData.rollNumber ||
@@ -152,6 +157,12 @@ export default function ExamRegistrationPage() {
     }
 
     setError("");
+    addExamMutation({
+      studentId: student._id,
+      examType: formData.examType,
+      subjects: formData.subjects,
+      session: formData.examSession,
+    });
     alert("Exam Registration submitted successfully!");
     router.push("/examination/main");
   };
