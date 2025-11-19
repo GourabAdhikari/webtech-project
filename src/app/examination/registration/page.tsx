@@ -1,15 +1,30 @@
 "use client";
 
+import { useMutation, useQuery } from "convex/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { api } from "@/../convex/_generated/api";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
 // ✅ Define strong type for form data
+const subjectOptions = [
+  { value: "mathematics", label: "Mathematics" },
+  { value: "operating_systems", label: "Operating Systems" },
+  { value: "dbms", label: "Database Management" },
+  { value: "software_engineering", label: "Software Engineering" },
+  { value: "machine_learning", label: "Machine Learning" },
+  { value: "data_structures", label: "Data Structures" },
+  { value: "artificial_intelligence", label: "Artificial Intelligence" },
+] as const;
+
+type Subject = (typeof subjectOptions)[number]["value"];
+
 interface FormData {
   name: string;
   rollNumber: string;
@@ -17,17 +32,19 @@ interface FormData {
   email: string;
   phone: string;
   guardianPhone: string;
-  course: string;
-  branch: string;
-  semester: string;
-  subjects: string[];
-  examType: string;
-  examSession: string;
+  course: "btech" | "mtech" | "mca" | "bca";
+  branch: "cs" | "electronics" | "mechanical" | "civil";
+  semester: number;
+  subjects: Subject[];
+  examType: "regular" | "supplementary" | "backlog";
+  examSession: "may_2025" | "nov_2025" | "may_2026";
   declaration: boolean;
 }
 
 export default function ExamRegistrationPage() {
   const router = useRouter();
+  const [rollNumber, setRollNumber] = useState<string | null>(null);
+  const addExamMutation = useMutation(api.exams.insertExam);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -36,12 +53,12 @@ export default function ExamRegistrationPage() {
     email: "",
     phone: "",
     guardianPhone: "",
-    course: "",
-    branch: "",
-    semester: "",
+    course: "btech",
+    branch: "cs",
+    semester: 0,
     subjects: [],
-    examType: "",
-    examSession: "",
+    examType: "regular",
+    examSession: "may_2025",
     declaration: false,
   });
 
@@ -50,8 +67,33 @@ export default function ExamRegistrationPage() {
   // ✅ Redirect protection
   useEffect(() => {
     const auth = sessionStorage.getItem("exam_auth");
+    const rn = sessionStorage.getItem("exam_roll");
+    setRollNumber(rn);
     if (!auth) router.push("/examination");
   }, [router]);
+
+  const student = useQuery(
+    api.students.getByRollNo,
+    rollNumber ? { rollNo: rollNumber } : "skip",
+  );
+
+  useEffect(() => {
+    if (student) {
+      setFormData((prev) => ({
+        ...prev,
+        name: student.fullName ?? prev.name,
+        rollNumber: student.rollNo ?? prev.rollNumber,
+        registrationNumber:
+          student.registrationNumber ?? prev.registrationNumber,
+        email: student.email ?? prev.email,
+        phone: student.studentMobile ?? prev.phone,
+        guardianPhone: student.guardianMobile ?? prev.guardianPhone,
+        course: student.course ?? prev.course,
+        branch: student.branch ?? prev.branch,
+        semester: student.semester ?? prev.semester,
+      }));
+    }
+  }, [student]);
 
   // ✅ Handle input changes (Type-safe fix)
   const handleChange = (
@@ -68,12 +110,12 @@ export default function ExamRegistrationPage() {
   };
 
   // ✅ Toggle subject selection
-  const toggleSubject = (subject: string) => {
+  const toggleSubject = (subject: Subject) => {
     setFormData((prev) => {
-      const isSelected = prev.subjects.includes(subject);
+      const exists = prev.subjects.includes(subject);
       return {
         ...prev,
-        subjects: isSelected
+        subjects: exists
           ? prev.subjects.filter((s) => s !== subject)
           : [...prev.subjects, subject],
       };
@@ -83,6 +125,11 @@ export default function ExamRegistrationPage() {
   // ✅ Form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!student) {
+      setError("Student data not loaded. Please try again.");
+      return;
+    }
 
     if (
       !formData.name ||
@@ -110,20 +157,23 @@ export default function ExamRegistrationPage() {
     }
 
     setError("");
+    addExamMutation({
+      studentId: student._id,
+      examType: formData.examType,
+      subjects: formData.subjects,
+      session: formData.examSession,
+    });
     alert("Exam Registration submitted successfully!");
     router.push("/examination/main");
   };
 
-  const availableSubjects = [
-    "Mathematics",
-    "Computer Networks",
-    "Operating Systems",
-    "Database Management",
-    "Software Engineering",
-    "Machine Learning",
-    "Data Structures",
-    "Artificial Intelligence",
-  ];
+  if (student === undefined) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-white px-6 py-10">
@@ -156,6 +206,7 @@ export default function ExamRegistrationPage() {
                   onChange={handleChange}
                   placeholder="Enter your full name"
                   required
+                  disabled={!!student}
                 />
               </LabelInputContainer>
 
@@ -171,6 +222,7 @@ export default function ExamRegistrationPage() {
                     onChange={handleChange}
                     placeholder="Enter your roll number"
                     required
+                    disabled={!!student}
                   />
                 </LabelInputContainer>
 
@@ -185,6 +237,7 @@ export default function ExamRegistrationPage() {
                     onChange={handleChange}
                     placeholder="Enter registration number"
                     required
+                    disabled={!!student}
                   />
                 </LabelInputContainer>
               </div>
@@ -201,6 +254,7 @@ export default function ExamRegistrationPage() {
                     onChange={handleChange}
                     placeholder="student@example.com"
                     required
+                    disabled={!!student}
                   />
                 </LabelInputContainer>
 
@@ -214,6 +268,7 @@ export default function ExamRegistrationPage() {
                     onChange={handleChange}
                     placeholder="Enter your mobile number"
                     required
+                    disabled={!!student}
                   />
                 </LabelInputContainer>
               </div>
@@ -229,6 +284,7 @@ export default function ExamRegistrationPage() {
                   onChange={handleChange}
                   placeholder="Enter guardian’s mobile number"
                   required
+                  disabled={!!student}
                 />
               </LabelInputContainer>
 
@@ -241,14 +297,15 @@ export default function ExamRegistrationPage() {
                     name="course"
                     value={formData.course}
                     onChange={handleChange}
-                    className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-black text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-black text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:bg-gray-100 disabled:text-gray-500"
                     required
+                    disabled={!!student}
                   >
                     <option value="">Select Course</option>
-                    <option>B.Tech</option>
-                    <option>M.Tech</option>
-                    <option>BCA</option>
-                    <option>MCA</option>
+                    <option value="btech">B.Tech</option>
+                    <option value="mtech">M.Tech</option>
+                    <option value="bca">BCA</option>
+                    <option value="mca">MCA</option>
                   </select>
                 </LabelInputContainer>
 
@@ -259,14 +316,15 @@ export default function ExamRegistrationPage() {
                     name="branch"
                     value={formData.branch}
                     onChange={handleChange}
-                    className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-black text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-black text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:bg-gray-100 disabled:text-gray-500"
                     required
+                    disabled={!!student}
                   >
                     <option value="">Select Branch</option>
-                    <option>Computer Science</option>
-                    <option>Electronics</option>
-                    <option>Mechanical</option>
-                    <option>Civil</option>
+                    <option value="cs">Computer Science</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="mechanical">Mechanical</option>
+                    <option value="civil">Civil</option>
                   </select>
                 </LabelInputContainer>
               </div>
@@ -280,12 +338,15 @@ export default function ExamRegistrationPage() {
                     name="semester"
                     value={formData.semester}
                     onChange={handleChange}
-                    className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-black text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-black text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:bg-gray-100 disabled:text-gray-500"
                     required
+                    disabled={!!student}
                   >
                     <option value="">Select Semester</option>
                     {[...Array(8)].map((_, i) => (
-                      <option key={`sem-${i + 1}`}>{i + 1} Semester</option>
+                      <option key={`sem-${i + 1}`} value={i + 1}>
+                        Semester {i + 1}
+                      </option>
                     ))}
                   </select>
                 </LabelInputContainer>
@@ -301,9 +362,9 @@ export default function ExamRegistrationPage() {
                     required
                   >
                     <option value="">Select Type</option>
-                    <option>Regular</option>
-                    <option>Backlog</option>
-                    <option>Supplementary</option>
+                    <option value="regular">Regular</option>
+                    <option value="backlog">Backlog</option>
+                    <option value="supplementary">Supplementary</option>
                   </select>
                 </LabelInputContainer>
               </div>
@@ -312,18 +373,18 @@ export default function ExamRegistrationPage() {
               <LabelInputContainer>
                 <Label>Subjects</Label>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-                  {availableSubjects.map((subject) => (
+                  {subjectOptions.map((s) => (
                     <label
-                      key={subject}
+                      key={s.value}
                       className="flex cursor-pointer items-center space-x-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 transition hover:bg-blue-50"
                     >
                       <input
                         type="checkbox"
-                        checked={formData.subjects.includes(subject)}
-                        onChange={() => toggleSubject(subject)}
+                        checked={formData.subjects.includes(s.value)}
+                        onChange={() => toggleSubject(s.value)}
                         className="accent-blue-600"
                       />
-                      <span className="text-gray-700 text-sm">{subject}</span>
+                      <span className="text-gray-700 text-sm">{s.label}</span>
                     </label>
                   ))}
                 </div>
@@ -341,9 +402,9 @@ export default function ExamRegistrationPage() {
                   required
                 >
                   <option value="">Select Session</option>
-                  <option>May 2025</option>
-                  <option>Nov 2025</option>
-                  <option>May 2026</option>
+                  <option value="may_2025">May 2025</option>
+                  <option value="nov_2025">Nov 2025</option>
+                  <option value="may_2026">May 2026</option>
                 </select>
               </LabelInputContainer>
 
