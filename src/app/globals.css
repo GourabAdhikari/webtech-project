@@ -120,7 +120,7 @@
     @apply bg-background text-foreground;
   }
 }
-/* === Uiverse Gradient Login Button (by adamgiebl, GU-themed) === */
+
 .cssbuttons-io {
   position: relative;
   font-family: inherit;
@@ -130,7 +130,7 @@
   border-radius: 0.8em;
   cursor: pointer;
   border: none;
-  /* background: linear-gradient(to right, #2563eb, #1e3a8a); */
+
   background: linear-gradient(to right, #0047ba, #001d6b);
   color: ghostwhite;
   overflow: hidden;
@@ -182,9 +182,8 @@
   transform: scale(0.97);
 }
 @layer components {
-  /* === Animated Blue Button (Uiverse.io adapted) === */
   .cssbuttons-io-button {
-    background: #2563eb; /* Tailwind blue-600 */
+    background: #2563eb;
     color: white;
     font-family: inherit;
     padding: 0.35em;
@@ -205,7 +204,7 @@
     transition:
       transform 0.25s ease,
       box-shadow 0.25s ease;
-    text-decoration: none; /* important for anchors */
+    text-decoration: none;
   }
 
   .cssbuttons-io-button:hover {
@@ -247,7 +246,6 @@
   }
 }
 @layer components {
-  /* === Logout Button (Uiverse.io by vinodjangid07) === */
   .Btn {
     display: flex;
     align-items: center;
@@ -314,7 +312,7 @@
     transform: translate(2px, 2px);
   }
 }
-/* Uiverse Send Button */
+
 .uiverse-btn {
   font-family: inherit;
   font-size: 20px;
@@ -368,7 +366,7 @@
     transform: translateY(-0.1em);
   }
 }
-/* ✅ Fixed Close Button (works 100%) */
+
 .close-btn {
   position: relative;
   display: flex;
@@ -414,7 +412,6 @@
   transition: transform 0.3s ease;
 }
 
-/* Hover Animations */
 .close-btn:hover {
   background: #ff3636;
 }
@@ -439,7 +436,7 @@
   -ms-user-select: none;
   user-select: none;
 }
-/* ✅ ViewButton (Uiverse - Green Slide Animation) */
+
 .download-button {
   position: relative;
   border-width: 0;

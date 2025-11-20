@@ -30,32 +30,26 @@ export default function ExaminationMainPage() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-gray-100 via-white to-gray-50 px-6 py-10">
-      {/* 🔹 Logout Button (top right) */}
       <div className="absolute top-6 right-8 z-20">
         <LogoutButton />
       </div>
 
-      {/* Heading */}
       <h1 className="mb-8 text-center font-extrabold text-4xl text-black tracking-tight">
         Examination Dashboard
       </h1>
 
-      {/* Welcome text */}
       <p className="mb-12 text-center text-gray-700 text-lg">
         Welcome,&nbsp;
         <span className="font-semibold text-gray-900">{rollNumber}</span>
       </p>
 
-      {/* Cards container */}
       <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-8">
-        {/* Exam Registration */}
         <BackgroundGradient
           containerClassName="w-full sm:w-[45%] md:w-[32%] lg:w-[23%] rounded-3xl group"
           className="cursor-pointer overflow-hidden rounded-3xl border border-gray-200 bg-white/80 p-6 text-center shadow-md backdrop-blur-md transition-all hover:scale-[1.02]"
         >
           <div className="flex min-h-[220px] flex-col items-center justify-between">
             <div className="mb-3 flex justify-center">
-              {/* FileSymlink Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="44"
@@ -88,14 +82,12 @@ export default function ExaminationMainPage() {
           </div>
         </BackgroundGradient>
 
-        {/* Grade Card */}
         <BackgroundGradient
           containerClassName="w-full sm:w-[45%] md:w-[32%] lg:w-[23%] rounded-3xl group"
           className="cursor-pointer overflow-hidden rounded-3xl border border-gray-200 bg-white/80 p-6 text-center shadow-md backdrop-blur-md transition-all hover:scale-[1.02]"
         >
           <div className="flex min-h-[220px] flex-col items-center justify-between">
             <div className="mb-3 flex justify-center">
-              {/* Medal Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="44"
@@ -129,14 +121,12 @@ export default function ExaminationMainPage() {
           </div>
         </BackgroundGradient>
 
-        {/* Admit Card */}
         <BackgroundGradient
           containerClassName="w-full sm:w-[45%] md:w-[32%] lg:w-[23%] rounded-3xl group"
           className="cursor-pointer overflow-hidden rounded-3xl border border-gray-200 bg-white/80 p-6 text-center shadow-md backdrop-blur-md transition-all hover:scale-[1.02]"
         >
           <div className="flex min-h-[220px] flex-col items-center justify-between">
             <div className="mb-3 flex justify-center">
-              {/* IdCard Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="44"
@@ -169,14 +159,12 @@ export default function ExaminationMainPage() {
           </div>
         </BackgroundGradient>
 
-        {/* Exam Fee */}
         <BackgroundGradient
           containerClassName="w-full sm:w-[45%] md:w-[32%] lg:w-[23%] rounded-3xl group"
           className="cursor-pointer overflow-hidden rounded-3xl border border-gray-200 bg-white/80 p-6 text-center shadow-md backdrop-blur-md transition-all hover:scale-[1.02]"
         >
           <div className="flex min-h-[220px] flex-col items-center justify-between">
             <div className="mb-3 flex justify-center">
-              {/* WalletMinimal Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="44"

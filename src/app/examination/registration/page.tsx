@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
-// ✅ Define strong type for form data
 const subjectOptions = [
   { value: "mathematics", label: "Mathematics" },
   { value: "operating_systems", label: "Operating Systems" },
@@ -185,7 +184,6 @@ export default function ExamRegistrationPage() {
       >
         <Card className="border-none shadow-none">
           <CardContent className="p-10 md:p-14">
-            {/* Header */}
             <div className="mb-8 text-center">
               <h1 className="font-extrabold text-3xl text-gray-900">
                 Exam Registration Form
@@ -196,7 +194,6 @@ export default function ExamRegistrationPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-7">
-              {/* Full Name */}
               <LabelInputContainer>
                 <Label htmlFor="name">Full Name</Label>
                 <Input
@@ -210,7 +207,6 @@ export default function ExamRegistrationPage() {
                 />
               </LabelInputContainer>
 
-              {/* Roll + Registration */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="rollNumber">Roll Number</Label>
@@ -242,7 +238,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Email + Phone */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="email">Email ID</Label>
@@ -273,7 +268,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Guardian's Mobile */}
               <LabelInputContainer>
                 <Label htmlFor="guardianPhone">Guardian’s Mobile Number</Label>
                 <Input
@@ -288,7 +282,6 @@ export default function ExamRegistrationPage() {
                 />
               </LabelInputContainer>
 
-              {/* Course + Branch */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="course">Course</Label>
@@ -329,7 +322,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Semester + Exam Type */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="semester">Semester</Label>
@@ -369,7 +361,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Subjects */}
               <LabelInputContainer>
                 <Label>Subjects</Label>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
@@ -390,7 +381,6 @@ export default function ExamRegistrationPage() {
                 </div>
               </LabelInputContainer>
 
-              {/* Exam Session */}
               <LabelInputContainer>
                 <Label htmlFor="examSession">Exam Session</Label>
                 <select
@@ -408,7 +398,6 @@ export default function ExamRegistrationPage() {
                 </select>
               </LabelInputContainer>
 
-              {/* Declaration */}
               <div className="flex items-start space-x-3 pt-3">
                 <input
                   type="checkbox"
@@ -437,7 +426,6 @@ export default function ExamRegistrationPage() {
                 <div className="text-center text-red-600 text-sm">{error}</div>
               )}
 
-              {/* Submit Button */}
               <button type="submit" className="uiverse-btn mx-auto">
                 <div className="svg-wrapper-1">
                   <div className="svg-wrapper">
