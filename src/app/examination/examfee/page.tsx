@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "convex/react";
-import { ArrowUp, Banknote } from "lucide-react"; // ✅ Lucide Icons
+import { ArrowUp, Banknote } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "@/../convex/_generated/api";
