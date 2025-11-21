@@ -1,7 +1,12 @@
 "use client";
 
+import type { Metadata } from "next";
 import Image from "next/image";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
+
+export const metadata: Metadata = {
+  title: "Courses",
+};
 
 export default function CoursesPage() {
   const courseContent = [
