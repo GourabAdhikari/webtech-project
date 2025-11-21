@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "@/../convex/_generated/api";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -62,8 +61,8 @@ export default function ExamRegistrationPage() {
   });
 
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ Redirect protection
   useEffect(() => {
     const auth = sessionStorage.getItem("exam_auth");
     const rn = sessionStorage.getItem("exam_roll");
@@ -94,7 +93,6 @@ export default function ExamRegistrationPage() {
     }
   }, [student]);
 
-  // ✅ Handle input changes (Type-safe fix)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -108,7 +106,6 @@ export default function ExamRegistrationPage() {
     });
   };
 
-  // ✅ Toggle subject selection
   const toggleSubject = (subject: Subject) => {
     setFormData((prev) => {
       const exists = prev.subjects.includes(subject);
@@ -121,8 +118,7 @@ export default function ExamRegistrationPage() {
     });
   };
 
-  // ✅ Form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!student) {
@@ -156,14 +152,25 @@ export default function ExamRegistrationPage() {
     }
 
     setError("");
-    addExamMutation({
-      studentId: student._id,
-      examType: formData.examType,
-      subjects: formData.subjects,
-      session: formData.examSession,
-    });
-    alert("Exam Registration submitted successfully!");
-    router.push("/examination/main");
+    setIsSubmitting(true);
+    try {
+      await addExamMutation({
+        studentId: student._id,
+        examType: formData.examType,
+        subjects: formData.subjects,
+        session: formData.examSession,
+      });
+      alert("Exam Registration submitted successfully!");
+      router.push("/examination/main");
+    } catch (err: unknown) {
+      console.error("Failed to submit exam registration:", err);
+      setError(
+        err && typeof err === "object" && "message" in err
+          ? (err as Error).message
+          : "Failed to submit registration. Please try again.",
+      );
+      setIsSubmitting(false);
+    }
   };
 
   if (student === undefined) {
@@ -426,7 +433,11 @@ export default function ExamRegistrationPage() {
                 <div className="text-center text-red-600 text-sm">{error}</div>
               )}
 
-              <button type="submit" className="uiverse-btn mx-auto">
+              <button
+                type="submit"
+                className="uiverse-btn mx-auto"
+                disabled={isSubmitting}
+              >
                 <div className="svg-wrapper-1">
                   <div className="svg-wrapper">
                     <svg
