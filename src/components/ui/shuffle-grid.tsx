@@ -1,5 +1,6 @@
 "use client";
 
+import { SignInButton } from "@clerk/nextjs";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -21,16 +22,18 @@ export const ShuffleHero = () => {
           infrastructure for different Undergraduate, Postgraduate, and Research
           programs in the field of Computer and Information Technologies.
         </p>
-        <button
-          type="button"
-          className={cn(
-            "rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground",
-            "transition-all hover:bg-primary/90 active:scale-95",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          )}
-        >
-          Get Started
-        </button>
+        <SignInButton mode="modal">
+          <button
+            type="button"
+            className={cn(
+              "rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground",
+              "transition-all hover:bg-primary/90 active:scale-95",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            )}
+          >
+            Get Started
+          </button>
+        </SignInButton>
       </div>
       <ShuffleGrid />
     </section>
