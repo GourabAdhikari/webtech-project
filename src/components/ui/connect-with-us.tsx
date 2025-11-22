@@ -2,23 +2,22 @@
 
 const SocialConnect = () => {
   const headingClass =
-    "mb-2 text-center bg-clip-text bg-linear-to-r from-teal-700 to-teal-500 text-4xl font-bold text-transparent md:text-5xl";
+    "mb-2 text-center text-4xl font-bold text-black md:text-5xl";
   const subheadingClass =
     "mx-auto max-w-2xl text-balance text-lg text-gray-600";
   const cardClass =
     "rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md";
   const iconWrapClass =
-    "flex h-10 w-10 items-center justify-center rounded-full bg-teal-50 text-teal-700";
-  const linkClass = "text-teal-600 underline-offset-4 hover:underline";
+    "flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-black";
+  const linkClass = "text-blue-600 underline-offset-4 hover:underline";
   const buttonClass =
-    "inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2";
+    "inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2";
   const primaryButtonClass =
-    "inline-flex items-center justify-center rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2";
+    "inline-flex items-center justify-center rounded-lg bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2";
   const h3Class = "text-lg font-semibold text-gray-900";
   const smallTextClass = "mt-1 text-sm text-gray-600";
   const listTextClass = "mt-2 space-y-1 text-sm text-gray-600";
-  const brandBarClass =
-    "mx-auto mt-3 h-1 w-24 rounded-full bg-linear-to-r from-teal-700 to-teal-500";
+  const brandBarClass = "mx-auto mt-3 h-1 w-24 rounded-full bg-black";
   const mapContainerClass =
     "mt-6 overflow-hidden rounded-2xl border border-gray-200 shadow-sm";
   const mapFrameClass = "h-[350px] w-full";
