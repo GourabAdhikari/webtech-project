@@ -1,6 +1,5 @@
 "use client";
 
-// ✅ Clerk Imports
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -26,9 +25,6 @@ const Navbar1 = () => {
   return (
     <div className="flex w-full justify-center px-4 py-6">
       <div className="relative z-10 flex w-full max-w-3xl items-center justify-between rounded-full bg-white px-6 py-3 shadow-lg">
-        {/* Left logo/photo placeholder removed as requested */}
-
-        {/* Desktop Navigation */}
         <nav className="hidden items-center space-x-8 md:flex">
           {NAV_LINKS.map((link) => {
             const protectedLink = link.href === "/examination"; // Home is public; others require sign-in
@@ -63,7 +59,6 @@ const Navbar1 = () => {
           })}
         </nav>
 
-        {/* ✅ Desktop Authentication Button */}
         <motion.div
           className="hidden items-center md:flex"
           initial={{ opacity: 0, x: 20 }}
@@ -149,7 +144,6 @@ const Navbar1 = () => {
                 );
               })}
 
-              {/* ✅ Mobile Authentication Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

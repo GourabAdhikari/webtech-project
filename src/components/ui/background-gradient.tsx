@@ -25,7 +25,6 @@ export const BackgroundGradient = ({
       onHoverStart={() => controls.start("animate")}
       onHoverEnd={() => controls.stop()}
     >
-      {/* Blue Glow Background */}
       <motion.div
         variants={variants}
         initial="initial"
@@ -42,7 +41,6 @@ export const BackgroundGradient = ({
         )}
       />
 
-      {/* Static Border */}
       <div
         className={cn(
           "absolute inset-0 z-[1] rounded-3xl opacity-30 transition duration-500 will-change-transform",
@@ -50,7 +48,6 @@ export const BackgroundGradient = ({
         )}
       />
 
-      {/* Inner Content */}
       <div className={cn("relative z-10", className)}>{children}</div>
     </motion.div>
   );

@@ -168,7 +168,6 @@ function Footerdemo() {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            {/* Dark mode toggle removed to keep the site in light mode */}
           </div>
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">

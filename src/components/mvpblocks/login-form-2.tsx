@@ -16,7 +16,6 @@ export default function LoginForm2() {
       <div className="-top-64 absolute left-0 h-1/2 w-full rounded-full bg-gradient-to-b from-primary/80 to-transparent blur-3xl"></div>
 
       <div className="relative z-10 grid min-h-screen grid-cols-1 md:grid-cols-2">
-        {/* ✅ Left side with optimized Image */}
         <motion.div
           className="hidden flex-1 items-center justify-center space-y-8 p-8 text-center md:flex"
           initial={{ opacity: 0, x: -50 }}
@@ -41,7 +40,6 @@ export default function LoginForm2() {
           </div>
         </motion.div>
 
-        {/* ✅ Right side - Login Form */}
         <motion.div
           className="flex flex-1 items-center justify-center p-8"
           initial={{ opacity: 0, x: 50 }}
@@ -55,7 +53,6 @@ export default function LoginForm2() {
           >
             <Card className="w-full max-w-md border-border/70 bg-card/20 shadow-[0_10px_26px_#e0e0e0a1] backdrop-blur-lg dark:shadow-none">
               <CardContent className="space-y-6 p-8">
-                {/* Header */}
                 <motion.div
                   className="space-y-4 text-center"
                   initial={{ opacity: 0, y: 20 }}
@@ -73,7 +70,6 @@ export default function LoginForm2() {
                   </p>
                 </motion.div>
 
-                {/* Email Input */}
                 <motion.div
                   className="space-y-2"
                   initial={{ opacity: 0, y: 20 }}
@@ -84,7 +80,6 @@ export default function LoginForm2() {
                   <Input id="email" type="email" />
                 </motion.div>
 
-                {/* Password Input */}
                 <motion.div
                   className="space-y-2"
                   initial={{ opacity: 0, y: 20 }}
@@ -99,7 +94,6 @@ export default function LoginForm2() {
                   />
                 </motion.div>
 
-                {/* Continue Button */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -110,7 +104,6 @@ export default function LoginForm2() {
                   <Button className="w-full">Continue</Button>
                 </motion.div>
 
-                {/* Divider */}
                 <motion.div
                   className="relative"
                   initial={{ opacity: 0 }}
@@ -127,7 +120,6 @@ export default function LoginForm2() {
                   </div>
                 </motion.div>
 
-                {/* Google Sign-in Button */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -157,7 +149,6 @@ export default function LoginForm2() {
                   </Button>
                 </motion.div>
 
-                {/* Terms and Conditions */}
                 <motion.p
                   className="mt-2 text-center text-muted-foreground text-xs"
                   initial={{ opacity: 0 }}

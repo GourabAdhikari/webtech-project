@@ -5,14 +5,12 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "@/../convex/_generated/api";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
-// ✅ Define strong type for form data
 const subjectOptions = [
   { value: "mathematics", label: "Mathematics" },
   { value: "operating_systems", label: "Operating Systems" },
@@ -63,8 +61,8 @@ export default function ExamRegistrationPage() {
   });
 
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ Redirect protection
   useEffect(() => {
     const auth = sessionStorage.getItem("exam_auth");
     const rn = sessionStorage.getItem("exam_roll");
@@ -95,7 +93,6 @@ export default function ExamRegistrationPage() {
     }
   }, [student]);
 
-  // ✅ Handle input changes (Type-safe fix)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -109,7 +106,6 @@ export default function ExamRegistrationPage() {
     });
   };
 
-  // ✅ Toggle subject selection
   const toggleSubject = (subject: Subject) => {
     setFormData((prev) => {
       const exists = prev.subjects.includes(subject);
@@ -122,8 +118,7 @@ export default function ExamRegistrationPage() {
     });
   };
 
-  // ✅ Form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!student) {
@@ -157,14 +152,25 @@ export default function ExamRegistrationPage() {
     }
 
     setError("");
-    addExamMutation({
-      studentId: student._id,
-      examType: formData.examType,
-      subjects: formData.subjects,
-      session: formData.examSession,
-    });
-    alert("Exam Registration submitted successfully!");
-    router.push("/examination/main");
+    setIsSubmitting(true);
+    try {
+      await addExamMutation({
+        studentId: student._id,
+        examType: formData.examType,
+        subjects: formData.subjects,
+        session: formData.examSession,
+      });
+      alert("Exam Registration submitted successfully!");
+      router.push("/examination/main");
+    } catch (err: unknown) {
+      console.error("Failed to submit exam registration:", err);
+      setError(
+        err && typeof err === "object" && "message" in err
+          ? (err as Error).message
+          : "Failed to submit registration. Please try again.",
+      );
+      setIsSubmitting(false);
+    }
   };
 
   if (student === undefined) {
@@ -185,7 +191,6 @@ export default function ExamRegistrationPage() {
       >
         <Card className="border-none shadow-none">
           <CardContent className="p-10 md:p-14">
-            {/* Header */}
             <div className="mb-8 text-center">
               <h1 className="font-extrabold text-3xl text-gray-900">
                 Exam Registration Form
@@ -196,7 +201,6 @@ export default function ExamRegistrationPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-7">
-              {/* Full Name */}
               <LabelInputContainer>
                 <Label htmlFor="name">Full Name</Label>
                 <Input
@@ -210,7 +214,6 @@ export default function ExamRegistrationPage() {
                 />
               </LabelInputContainer>
 
-              {/* Roll + Registration */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="rollNumber">Roll Number</Label>
@@ -242,7 +245,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Email + Phone */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="email">Email ID</Label>
@@ -273,7 +275,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Guardian's Mobile */}
               <LabelInputContainer>
                 <Label htmlFor="guardianPhone">Guardian’s Mobile Number</Label>
                 <Input
@@ -288,7 +289,6 @@ export default function ExamRegistrationPage() {
                 />
               </LabelInputContainer>
 
-              {/* Course + Branch */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="course">Course</Label>
@@ -329,7 +329,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Semester + Exam Type */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <LabelInputContainer>
                   <Label htmlFor="semester">Semester</Label>
@@ -369,7 +368,6 @@ export default function ExamRegistrationPage() {
                 </LabelInputContainer>
               </div>
 
-              {/* Subjects */}
               <LabelInputContainer>
                 <Label>Subjects</Label>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
@@ -390,7 +388,6 @@ export default function ExamRegistrationPage() {
                 </div>
               </LabelInputContainer>
 
-              {/* Exam Session */}
               <LabelInputContainer>
                 <Label htmlFor="examSession">Exam Session</Label>
                 <select
@@ -408,7 +405,6 @@ export default function ExamRegistrationPage() {
                 </select>
               </LabelInputContainer>
 
-              {/* Declaration */}
               <div className="flex items-start space-x-3 pt-3">
                 <input
                   type="checkbox"
@@ -437,8 +433,11 @@ export default function ExamRegistrationPage() {
                 <div className="text-center text-red-600 text-sm">{error}</div>
               )}
 
-              {/* Submit Button */}
-              <button type="submit" className="uiverse-btn mx-auto">
+              <button
+                type="submit"
+                className="uiverse-btn mx-auto"
+                disabled={isSubmitting}
+              >
                 <div className="svg-wrapper-1">
                   <div className="svg-wrapper">
                     <svg

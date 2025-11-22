@@ -37,7 +37,6 @@ export const HoverEffect = ({
           onMouseLeave={() => setHoveredIndex(null)}
           className="group relative block h-full w-full p-2 focus:outline-none"
         >
-          {/* 💡 Hover Background Animation */}
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span

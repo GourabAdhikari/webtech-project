@@ -26,7 +26,6 @@ const LogoutButton: React.FC = () => {
           aria-labelledby="logoutIconTitle"
         >
           <title id="logoutIconTitle">Logout Icon</title>{" "}
-          {/* ✅ Accessible title */}
           <path
             d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9
             c-18.7 0-33.9-15.2-33.9-33.9v-62.1h-128c-17.7 0-32-14.3-32-32v-64

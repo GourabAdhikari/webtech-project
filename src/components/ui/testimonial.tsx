@@ -79,7 +79,6 @@ const AnimatedTestimonials = ({
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-7xl items-center px-4 py-8 font-sans antialiased md:px-8 lg:px-12">
       <div className="relative grid grid-cols-1 items-center gap-y-12 md:grid-cols-2 md:gap-x-20">
-        {/* Image Section */}
         <div className="flex items-center justify-center">
           <div className="relative h-[60vh] w-full max-w-md md:h-[70vh] md:max-w-lg lg:h-[80vh] lg:max-w-xl">
             <AnimatePresence initial={false}>
@@ -120,7 +119,6 @@ const AnimatedTestimonials = ({
           </div>
         </div>
 
-        {/* Text + Controls */}
         <div className="flex flex-col justify-center py-4">
           <AnimatePresence mode="wait">
             <motion.div
@@ -145,7 +143,6 @@ const AnimatedTestimonials = ({
             </motion.div>
           </AnimatePresence>
 
-          {/* Arrows */}
           <div className="flex gap-4 pt-12">
             <button
               type="button"
@@ -171,16 +168,13 @@ const AnimatedTestimonials = ({
   );
 };
 
-// Demo Component
 function AnimatedTestimonialsDemo() {
   return <AnimatedTestimonials testimonials={testimonials} />;
 }
 
-// Main Export Component
 export function Component() {
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950">
-      {/* Animated Background Grid */}
       <style>
         {`
           @keyframes animate-grid {

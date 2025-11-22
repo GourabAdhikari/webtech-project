@@ -39,7 +39,6 @@ export default function GradeCardPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-gray-100 via-white to-gray-50 px-6 py-10">
-      {/* 🔹 Page Heading */}
       <motion.h1
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,7 +52,6 @@ export default function GradeCardPage() {
         View and download your grade card.
       </p>
 
-      {/* 💠 Cards Container */}
       <div className="relative w-full max-w-3xl space-y-6 overflow-hidden rounded-3xl border border-blue-100 bg-white/90 p-8 shadow-xl">
         {gradeCards.map((card) => (
           <button
@@ -66,7 +64,6 @@ export default function GradeCardPage() {
             className="relative w-full overflow-visible rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             aria-label={`View grade card for ${card.semester}`}
           >
-            {/* 🌊 Subtle Single Blue Glow */}
             <AnimatePresence>
               {hoveredIndex === card.semester && (
                 <motion.span
@@ -81,7 +78,6 @@ export default function GradeCardPage() {
               )}
             </AnimatePresence>
 
-            {/* 🧱 Card Content */}
             <motion.div
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 250, damping: 18 }}

@@ -79,7 +79,6 @@ export default function ExaminationLoginPage() {
         className="w-full max-w-6xl overflow-hidden rounded-3xl shadow-2xl"
       >
         <div className="flex flex-col md:flex-row">
-          {/* 🎓 Left Section */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -107,7 +106,6 @@ export default function ExaminationLoginPage() {
             </div>
           </motion.div>
 
-          {/* 🧾 Right Section */}
           <motion.div
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
