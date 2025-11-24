@@ -63,7 +63,6 @@ export const StickyScroll = ({
       ref={ref}
       className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 relative mx-auto flex h-[28rem] w-full max-w-6xl justify-center space-x-10 overflow-y-auto rounded-3xl border border-gray-300 bg-white p-8 shadow-lg"
     >
-      {/* LEFT SCROLL TEXT AREA */}
       <div className="relative flex flex-col items-start px-6">
         <div className="max-w-2xl">
           {content.map((item, index) => (
@@ -87,7 +86,6 @@ export const StickyScroll = ({
         </div>
       </div>
 
-      {/* RIGHT STICKY IMAGE AREA */}
       <div
         style={{ background: backgroundGradient }}
         className={cn(

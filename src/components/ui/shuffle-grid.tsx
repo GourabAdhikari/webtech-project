@@ -40,7 +40,6 @@ export const ShuffleHero = () => {
   );
 };
 
-// 🔁 Utility to shuffle the image order
 function shuffle<T>(array: T[]): T[] {
   const arr = [...array];
   let currentIndex = arr.length;
@@ -58,7 +57,6 @@ function shuffle<T>(array: T[]): T[] {
   return arr;
 }
 
-// ✅ Your 16 local images from /public/images/uni_pics/
 const squareData = [
   { id: 1, src: "/images/uni_pics/gu_pic1.png" },
   { id: 2, src: "/images/uni_pics/gu_pic2.png" },
@@ -78,7 +76,6 @@ const squareData = [
   { id: 16, src: "/images/uni_pics/gu_pic16.png" },
 ];
 
-// Generate grid squares dynamically
 const generateSquares = () =>
   shuffle(squareData).map((sq) => (
     <motion.div
